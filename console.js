@@ -29,7 +29,7 @@ function(
     program,
     node)
 {
-    
+
 var printNodes = function(nodes) {
     lexOut.children().remove();
 
@@ -113,53 +113,10 @@ var base = incremental.parseIncState(
     function(x){
         $('.LexError').text(x);
     });
-/*
-var baseParser = incremental.parseIncState(
-    parse.next(
-        parse.bind(parse.getParserState, function(x) {
-            return x.state.next(null);
-        }),
-        program.program),
-    new parser.ParserState(
-        stream.end,
-        position.SourcePosition.initial,
-        {},
-        stream.end,
-        position.SourcePosition.initial),
-    function(ast) {
-        $('.ParseOut').children().remove();
-        walk(ast, function(x){
-            $('.ParseOut').append(x);
-        });
-    },
-    function(x){
-        $('.ParseError').text(x);
-    });
-*/
+
 /* 
  ******************************************************************************/
 var lexOut = $('.LexOut');
-
-var walk = function(ast, f) {
-    if (ast instanceof node.Node) {
-        var n = $("<div class='Node " + ast.type +"'><span class='NodeType'>"+ast.type+"</span></div>")
-            .data('location', ast.loc);
-        
-        Object.keys(ast).forEach(function(key) {
-            walk(ast[key], function(x) { n.append($("<div>" + key + ": </div>").append(x)); });
-        });
-        return f(n);
-    }
-    if (Array.isArray(ast)) {
-        var n = $("<div class='Array'></div>");
-        
-        for (var i = 0; i < ast.length; ++i) {
-            walk(ast[i], function(x) { n.append(x); });
-        }
-        return f(n);
-    }
-    return f($("<span>" + ast + "</span>"));
-};
 
 $('.Token').live('hover', function() {
     $('.TokenInfo .TypeInfo .Value').text($(this).data('type'));
@@ -193,9 +150,6 @@ $('button').click(function() {
     var input = doc.getValue();
     
     lexOut.children().remove();
-    $('.ParseOut').children().remove();
-    $('.ParseOut').text('');
-    $('.ParseError').text('');
     $('.LexError').text('');
     
     var nodes, ast;
@@ -214,9 +168,10 @@ $('button').click(function() {
         nodes = lex(input);
     } catch (e) {
         $('.LexError').text(e);
+        return;
     }
     
-     stream.forEach(function(v) {
+    stream.forEach(function(v) {
         var type =  v.type,
             value = (type === 'Whitespace' ? '' : v.value),
             location = v.loc;
@@ -232,23 +187,6 @@ $('button').click(function() {
                 'location': location
             }));
     }, nodes);
-    
-    try
-    {
-        ast = parser.parse(input);
-    } catch (e) {
-        $('.ParseError').text(e);
-        return;
-    }
-
-    $('.ParseError').text('');
-    $('.LexError').text('');
-    
-   
-    
-    walk(ast, function(x){
-        $('.ParseOut').append(x);
-    });
 });
 
 });
