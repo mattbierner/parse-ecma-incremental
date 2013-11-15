@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Parse ECMAScript Console</title>
+    
+    <link type="text/css" rel="stylesheet" href="resources/codemirror-3.14/codemirror.css" />
+    
+    <style>
+        body {
+            height: 100%;
+            position: relative;
+        }
+        
+        .content > * {
+            width: 50%;
+            float: left;
+            position: relative;
+        }
+        
+        .content > * > * {
+            padding: 0 2em;
+            display: block;
+        }
+        
+        .console textarea {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .TokenInfo {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            background: white;
+            border: 1px solid black;
+        }
+        
+        .TokenInfo ul {
+            list-style: none;
+        }
+        .TokenInfo ul {
+        }
+        
+        .TokenInfo ul li {
+            padding-bottom: 1em;
+        }
+        
+        .TokenInfo .Key {
+            font-weight: bold;
+        }
+        
+        .TokenInfo .Key {
+            font-weight: bold;
+        }
+        
+        pre {
+            white-space: pre-wrap;
+        }
+        
+        .output {
+            height: 100%;
+            overflow-y: scroll;
+            position:fixed;
+            right: 0;
+        }
+        
+        .LexOut {
+            margin-bottom: 25em;
+        }
+        
+        span.Token.Keyword {
+            color: red;
+        }
+        
+        span.Token.Comment {
+            color: blue;
+        }
+        
+        span.Token.Comment:before {
+            content: "/*";
+        }
+        
+        span.Token.Comment:after {
+            content: "*/";
+        }
+        
+        span.Token.String {
+            color: green;
+        }
+        
+        span.Token.Punctuator {
+            color: pink;
+        }
+        
+        span.Token.RegularExpression {
+            color: orange;
+        }
+        
+        span.Token.Whitespace,
+        span.Token.LineTerminator {
+            color: rgb(215, 215, 215);
+        }
+        
+        span.Token.Whitespace {
+            display:inline-block;
+        }
+        
+        span.Token.Whitespace:after {
+            content: '\00B7';
+        }
+        
+        span.Token.Whitespace.Tab {
+            width: 2em;
+            text-align: center;
+        }
+        span.Token.Whitespace.Tab:after {
+            content: '\21E5';
+        }
+        
+        span.Token.LineTerminator:before {
+            content: '\00B6';
+        }
+        
+        .ParseError, .LexError {
+            color: red;
+        }
+        
+        .Node {
+            margin-left: 0.5em;
+        }
+        
+        
+        .NodeType {
+            display: block;
+        }
+        
+        .Active,
+        span.Token:hover {
+            background: rgb(220, 220, 220);
+        }
+    </style>
+</head>
+
+<body lang="en">
+    <div class="content">
+        <div>
+            <div class='console'>
+                <h2>Input</h2>
+                <div id='input'></div>
+                <form action="">
+                    <input type="radio" name='lexer' checked='checked' value='div'>div</input>
+                    <input type="radio" name='lexer' value='regexp'>regexp</input>
+                </form>
+                <button id='parse'>Parse</button>
+                <button id='run'>Run</button>
+                <span id='time'></span>
+            </div>
+        </div>
+        <div class='output'>
+            <div>
+                <h4>Lex Out</h4>
+                <pre class='LexError'></pre>
+                <pre class='LexOut'></pre>
+            </div>
+        </div>
+        
+        <div class='TokenInfo'>
+            <h3>Token Info</h3>
+            <ul>
+                <li class='TypeInfo'>
+                    <div class='Key'>Type</div>
+                    <div class='Value'></div>
+                </li>
+                <li class='LocationInfo'>
+                    <div class='Key'>Location</div>
+                    <div class='Value'></div>
+                </li>
+                <li class='ValueInfo'>
+                    <div class='Key'>Value</div>
+                    <pre class='Value'></pre>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <script type="application/javascript" src="resources/require.js"></script>
+    <script src="resources/jquery-1.8.3.min.js"></script>
+    <script type="application/javascript" src="resources/codemirror-3.14/codemirror.js"></script>
+    <script type="application/javascript" src="resources/codemirror-3.14/javascript.js"></script>
+    <script type="application/javascript" src="console.js"></script>
+</body>
+    
+</html>
