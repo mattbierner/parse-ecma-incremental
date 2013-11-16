@@ -1,8 +1,8 @@
 requirejs.config({
     paths: {
-        'ecma': '../parse-ecma/lib',
-        'parse': '../parse/lib',
-        'nu': 'dependencies/nu/lib',
+        'ecma': 'dependencies/parse-ecma/lib',
+        'parse': 'dependencies/parse/dist',
+        'nu': 'dependencies/nu/dist',
         'ecma_ast': 'dependencies/ecma-ast/lib',
         'seshat': 'dependencies/seshat/lib/seshat'
     }
